@@ -1,9 +1,9 @@
-﻿#include <stdio.h> 
+#include <stdio.h> 
 #include <stdlib.h> 
 double powmy(double digtopow, int degree)
 {
     double power = digtopow;
-    if (degree!=0){
+    if (degree != 0) {
         for (double i = 1; i < degree; i++)
         {
             digtopow = digtopow * power;
@@ -16,26 +16,36 @@ double powmy(double digtopow, int degree)
     }
 
 }
-void dotincomm (char* mass, int *dotpose) {
-    mass[*dotpose] = '.';
-    (*dotpose)++;
-}
-void intpartborder(char *smbl,int *flag, char *mass, int *strln, int *dotpos) {
-    if ((*smbl) - 48 >= 4) {
-        (*flag)++;
-    }
-    mass[*strln] = *smbl;
+void addstrln(int* strln) {
     (*strln)++;
+}
+void finddotpose(int* dotpos) {
     (*dotpos)++;
 }
-void floatpartborder(char* smbl, int* flag, char* mass, int* strln) {
+void dotincomm(char* mass, int* dotpos) { // Превращает запятую в точку, добавляет длину строке
+    mass[*dotpos] = '.';
+    finddotpose(dotpos);
+}
+void checkisincorrectsystem(char* smbl, int* flag) {
     if ((*smbl) - 48 >= 4) {
         (*flag)++;
     }
-    mass[*strln] = *smbl;
-    (*strln)++;
 }
-void transintnotation(int *strln, int *dotpos, char *inptstr, double *num) {
+void fillmassive(int* strln, char* smbl, char* mass) {
+    mass[*strln] = *smbl;
+}
+void intpartborder(char* smbl, int* flag, char* mass, int* strln, int* dotpos) { //узнает длину целой части числа, изменяет длину строки, находит местоположение точки
+    checkisincorrectsystem(smbl, flag);
+    fillmassive(strln, smbl, mass);
+    addstrln(strln);
+    finddotpose(dotpos);
+}
+void floatpartborder(char* smbl, int* flag, char* mass, int* strln) {
+    checkisincorrectsystem(smbl, flag);
+    fillmassive(strln, smbl, mass);;
+    addstrln(strln);
+}
+void transintnotation(int* strln, int* dotpos, char* inptstr, double* num) {
     int digit = 0;
     int negdeg = (*strln) - (*dotpos) - 1;
     for (int i = (*strln) - 1; i > (*dotpos); i--)
@@ -65,7 +75,7 @@ int main()
     int flag = 0;
     while (((smbl = getchar()) != '.') and (smbl != ','))
     {
-        intpartborder(&smbl,&flag, inptstr, &strln, &dotpos);
+        intpartborder(&smbl, &flag, inptstr, &strln, &dotpos);
     }
     dotincomm(inptstr, &strln);
     while ((smbl = getchar()) != '\n')
@@ -74,7 +84,7 @@ int main()
     }
     double num = 0.0;
     int digit = 0;
-    if (flag==0)
+    if (flag == 0)
     {
         transintnotation(&strln, &dotpos, inptstr, &num);
         transfloatnotation(&dotpos, inptstr, &num);

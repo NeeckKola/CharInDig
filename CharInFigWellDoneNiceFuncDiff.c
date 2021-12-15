@@ -16,22 +16,22 @@ double powmy(double digtopow, int degree)
     }
 
 }
-void addstrln(int* strln) {
+void addstrln(int* strln) { // измеряет длину строки
     (*strln)++;
 }
-void finddotpose(int* dotpos) {
+void finddotpose(int* dotpos) { //ищет позицию точки
     (*dotpos)++;
 }
 void dotincomm(char* mass, int* dotpos) { // Превращает запятую в точку, добавляет длину строке
     mass[*dotpos] = '.';
     finddotpose(dotpos);
 }
-void checkisincorrectsystem(char* smbl, int* flag) {
+void checkisincorrectsystem(char* smbl, int* flag) { // проверяет в правильной ли системе счисления введено число
     if ((*smbl) - 48 >= 4) {
         (*flag)++;
     }
 }
-void fillmassive(int* strln, char* smbl, char* mass) {
+void fillmassive(int* strln, char* smbl, char* mass) { //заполняет массив с изменённой точкой
     mass[*strln] = *smbl;
 }
 void intpartborder(char* smbl, int* flag, char* mass, int* strln, int* dotpos) { //узнает длину целой части числа, изменяет длину строки, находит местоположение точки
@@ -40,12 +40,12 @@ void intpartborder(char* smbl, int* flag, char* mass, int* strln, int* dotpos) {
     addstrln(strln);
     finddotpose(dotpos);
 }
-void floatpartborder(char* smbl, int* flag, char* mass, int* strln) {
+void floatpartborder(char* smbl, int* flag, char* mass, int* strln) { //узнает длину дробной части числа, изменяет длину строки
     checkisincorrectsystem(smbl, flag);
     fillmassive(strln, smbl, mass);;
     addstrln(strln);
 }
-void transintnotation(int* strln, int* dotpos, char* inptstr, double* num) {
+void transintnotation(int* strln, int* dotpos, char* inptstr, double* num) { //переводит целую часть числа в нужную систему счисления
     int digit = 0;
     int negdeg = (*strln) - (*dotpos) - 1;
     for (int i = (*strln) - 1; i > (*dotpos); i--)
@@ -55,7 +55,7 @@ void transintnotation(int* strln, int* dotpos, char* inptstr, double* num) {
         negdeg -= 1;
     }
 }
-void transfloatnotation(int* dotpos, char* inptstr, double* num) {
+void transfloatnotation(int* dotpos, char* inptstr, double* num) { //переводит дробную часть числа в нужную систему счисления
     int posdeg = 0;
     int digit = 0;
     for (int i = *dotpos - 1; i >= 0; i--)
